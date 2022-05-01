@@ -16,7 +16,7 @@
           return
         }
         const isUnique = this.checkUnique(entryTitle, entryText);
-        
+
         if (isUnique) {
           const toDoEntry = {
             entryTitle,
@@ -37,13 +37,13 @@
       },
 
       edit(entryTitle, newTitle, newText) {
-        const removeIndex = this.toDoEntries.findIndex(toDoEntry => toDoEntry.entryTitle === entryTitle);
+        const editIndex = this.toDoEntries.findIndex(toDoEntry => toDoEntry.entryTitle === entryTitle);
 
-        const isUnique = this.checkUniqueNew(newTitle, newText);
+        const isUnique = this.checkUnique(newTitle, newText);
 
         if (isUnique) {
-          this.toDoEntries[removeIndex].entryTitle = newTitle;
-          this.toDoEntries[removeIndex].entryText = newText;
+          this.toDoEntries[editIndex].entryTitle = newTitle;
+          this.toDoEntries[editIndex].entryText = newText;
         }
       },
 
@@ -57,10 +57,6 @@
       
       checkUnique(entryTitle, entryText) {
         return !this.toDoEntries.find(toDoEntry111 => toDoEntry111.entryTitle == entryTitle || toDoEntry111.entryText == entryText);
-      },
-
-      checkUniqueNew(newTitle, newText) {
-        return !this.toDoEntries.find(toDoEntry111 => toDoEntry111.entryTitle == newTitle || toDoEntry111.entryText == newText);
       },
 
       get stat() {
