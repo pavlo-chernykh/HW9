@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    const toDoList = {
+      toDoEntries: [],
+
+      add(entryTitle, entryText) {
+        if (entryTitle.trim().length === 0 || entryText.trim().length === 0) {
+          return
+        }
+        const isUnique = this.checkUnique(entryTitle, entryText);
+
+        // console.log('isUnique', isUnique);
+
+        if (isUnique) {
+          const toDoEntry = {
+            entryTitle,
+            entryText,
+            isComplete: false
+          }
+
+          this.toDoEntries.push(toDoEntry);
+        }
+      },
+
+      remove(entryTitle) {
+        const removeIndex = this.toDoEntries.findIndex(toDoEntry => toDoEntry.entryTitle === entryTitle);
+        
+        if (removeIndex !== -1) {
+          this.toDoEntries.splice(removeIndex, 1);
+        }
+      },
+
+      edit(entryTitle, newTitle, newText) {
+        const removeIndex = this.toDoEntries.findIndex(toDoEntry => toDoEntry.entryTitle === entryTitle);
+
+        const isUnique = this.checkUniqueNew(newTitle, newText);
+
+        if (isUnique) {
+          this.toDoEntries[removeIndex].entryTitle = newTitle;
+          this.toDoEntries[removeIndex].entryText = newText;
+        }
+      },
+
+      toggleComplete(entryTitle) {
+        const index = this.toDoEntries.findIndex(toDoEntry => toDoEntry.entryTitle === entryTitle);
+
+        if (index !== -1) {
+          this.toDoEntries[index].isComplete = !this.toDoEntries[index].isComplete;
+        }
+      },
+      
+      checkUnique(entryTitle, entryText) {
+        return !this.toDoEntries.find(toDoEntry111 => toDoEntry111.entryTitle == entryTitle || toDoEntry111.entryText == entryText);
+      },
+
+      checkUniqueNew(newTitle, newText) {
+        return !this.toDoEntries.find(toDoEntry111 => toDoEntry111.entryTitle == newTitle || toDoEntry111.entryText == newText);
+      },
+      
+      get stat() {
+        return this.toDoEntries.reduce((acc, toDoEntry) => {
+          if (toDoEntry.isComplete === true) {
+            acc.finished++
+          } else {
+            acc.unfinished++
+          }
+          return acc;
+        }, {
+          total: this.toDoEntries.length,
+          finished: 0,
+          unfinished: 0
+        })
+      }
+    };
+
+    for (const key in toDoList) {
+      Object.defineProperty(toDoList, key, {
+        configurable: false
+      })
+    }
+
+    const entryTitlePrompt = prompt('Enter Title');
+    const entryTextPrompt = prompt('Enter Text');
+
+    toDoList.add(entryTitlePrompt, entryTextPrompt);
+
+
+    // 2. delete or rename = Object.defineProperty(objectName, 'name', {
+    //   writable: true,
+    //   configurable: false
+    // })
+
+  </script>
+</body>
+</html>
